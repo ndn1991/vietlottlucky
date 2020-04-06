@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "7407660873",
+    "firebase_url": "https://vietlott-lucky.firebaseio.com",
+    "project_id": "vietlott-lucky",
+    "storage_bucket": "vietlott-lucky.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7407660873:android:e51596a08c2d5d7bce3498",
+        "android_client_info": {
+          "package_name": "com.vietlott.lucky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7407660873-2eb52c8tfvfklo9auap2nd6krldlnk9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqOkyydU-sYYj1AUL-1229LxxQ5INT_yM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7407660873-2eb52c8tfvfklo9auap2nd6krldlnk9r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "7407660873-1c3plqana9cgvo3kludb7tkmd0vjh4lh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vietlott.lucky"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
