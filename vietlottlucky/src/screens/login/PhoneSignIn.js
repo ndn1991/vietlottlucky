@@ -1,44 +1,25 @@
 // @flow
-
-import React, { Component, useState } from "react";
-import { StyleSheet, View, StatusBar, Image, Text, ScrollView, Alert, ActivityIndicator } from "react-native";
-import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
-import MaterialButtonPink from "../components/MaterialButtonPink";
-import MaterialRightIconTextbox from "../components/MaterialRightIconTextbox";
+import React, { useState } from "react";
+import { Alert, View, Text, StyleSheet } from "react-native";
 import auth from '@react-native-firebase/auth';
+import MaterialFixedLabelTextbox from "../../components/MaterialFixedLabelTextbox";
+import MaterialButtonPink from "../../components/MaterialButtonPink";
+import MaterialRightIconTextbox from "../../components/MaterialRightIconTextbox";
+import commonStyles from '../../styles'
 
-function LoginScreen(props: any) {
-  const [showLoading, setShowLoading] = useState(false)
-  return (
-      <ScrollView style={styles.container}>
-          <StatusBar
-            animated={true}
-            backgroundColor="rgba(208,2,27,1)"
-            translucent={true}
-            barStyle="light-content"
-            hidden={false}
-          ></StatusBar>
-          <View style={styles.topBar}></View>
-          <View style={styles.logoContainer}>
-            <Image
-              source={require("../assets/images/logo-vietlott.png")}
-              resizeMode="contain"
-              style={styles.logo}
-            ></Image>
-          </View>
-          <PhoneSignIn showLoading={showLoading} setShowLoading={value => setShowLoading(value)} />
-          <ActivityIndicator animating={showLoading} size="large" color="rgba(208,2,27,1)" />
-      </ScrollView>
-  );
-}
-
-function PhoneSignIn(props) {
+function PhoneSignIn(props: any) {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [code, setCode] = useState('')
   const [confirm, setConfirm] = useState(null)
+  const [showLoading, setShowLoading] = useState(false)
+
+  const _setShowLoading = (value: boolean) => {
+    setShowLoading(value)
+    props.setShowLoading(value)
+  }
 
   const loginWithPhoneNumber = async () => {
-    props.setShowLoading(true)
+    _setShowLoading(true)
     try {
       const sendPhoneNumber = phoneNumber.startsWith('0') ? phoneNumber.slice(1) : phoneNumber;
       if (sendPhoneNumber.length != 9) {
@@ -52,7 +33,7 @@ function PhoneSignIn(props) {
       console.log('error when send phone number to firebase authentication', error)
       Alert.alert('Thông báo', 'Có lỗi khi kết nối đến server')
     } finally {
-      props.setShowLoading(false)
+      _setShowLoading(false)
     }
   }
 
@@ -60,34 +41,34 @@ function PhoneSignIn(props) {
     if (!code) {
       Alert.alert('Thông báo', 'Hãy nhập mã xác thực')
     } else {
-      props.setShowLoading(true)
+      _setShowLoading(true)
       try {
         await (confirm: any).confirm(code)
-        Alert.alert('Thông báo', 'Đăng nhập thành công')
+        props.loginSuccess()
       } catch (error) {
         console.log('error when verify login code', error)
         Alert.alert('Thông báo', 'Sai mã xác nhận')
       } finally {
-        props.setShowLoading(false)
+        _setShowLoading(false)
       }
     }
   }
 
   if (!confirm) {
     return (
-      <View style={styles.body} accessible={false}>
+      <View style={styles.body}>
         <Text style={styles.phoneNumberLabel}>Số điện thoại của bạn</Text>
         <MaterialFixedLabelTextbox 
           onChangeText={text => setPhoneNumber(text)}
           style={styles.phoneNumberInput}
-          editable={!props.showLoading}
+          editable={!showLoading}
           value={phoneNumber}
           onSubmitEditing={() => {loginWithPhoneNumber()}} />
-        <MaterialButtonPink 
+        <MaterialButtonPink
           onPress={() => {loginWithPhoneNumber()}}
           style={styles.materialButtonPink}
           buttonLabel="Tiếp tục"
-          disabled={props.showLoading} />
+          disabled={showLoading} />
       </View>
     )
   } else {
@@ -99,14 +80,14 @@ function PhoneSignIn(props) {
           style={styles.phoneNumberInput}
           keyboardType="number-pad"
           onChangeText={text => setCode(text)}
-          editable={!props.showLoading}
+          editable={!showLoading}
           value={code}
           onSubmitEditing={() => {verifyLoginCode()}} />
         <MaterialButtonPink 
           onPress={() => {verifyLoginCode()}}
           style={styles.materialButtonPink}
           buttonLabel="Xác nhận"
-          disabled={props.showLoading} />
+          disabled={showLoading} />
         <Text style={styles.changePhoneNumber} onPress={() => setConfirm(null)}>Thay đổi số điện thoại</Text>
       </View>
     )
@@ -114,34 +95,14 @@ function PhoneSignIn(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-  },
-  topBar: {
-    height: 100,
-    backgroundColor: "rgba(208,2,27,1)"
-  },
-  logoContainer: {
-    height: 200,
-    backgroundColor: "#ffffff",
-  },
-  logo: {
-    flex: 1,
-    flexDirection: "row",
-    alignSelf: "center",
-    height: 200
-  },
   body: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: commonStyles.backgroundColor,
     paddingLeft: 20,
     paddingRight: 20,
   },
   phoneNumberLabel: {
-    color: "#121212",
-    fontSize: 16,
-    fontFamily: "calibri-bold",
+    ...commonStyles.mainLabel,
     marginTop: 18
   },
   phoneNumberInput: {
@@ -156,11 +117,11 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   changePhoneNumber: {
-    color: "#121212",
+    color: commonStyles.mainLabel.color,
     fontFamily: "roboto-regular",
     textDecorationLine: "underline",
     alignSelf: "center"
   }
 });
 
-export default LoginScreen;
+export default PhoneSignIn

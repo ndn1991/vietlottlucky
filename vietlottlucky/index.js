@@ -33,6 +33,10 @@ const androidConfig = {
   // enable persistence by adding the below flag
   persistence: true,
 };
+
+AppRegistry.registerComponent(appName, () => App);
+console.log('AppRegistry.registerComponent(appName, () => App)')
+
 const vietlottLuckyApp = firebase
   .initializeApp(
     // use platform-specific firebase config
@@ -42,5 +46,3 @@ const vietlottLuckyApp = firebase
   )
   .then(app => console.log('initialized apps ->', firebase.apps));
 console.log('initializing firebase app')
-
-AppRegistry.registerComponent(appName, () => App);
