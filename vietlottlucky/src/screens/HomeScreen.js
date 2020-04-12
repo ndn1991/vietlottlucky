@@ -6,6 +6,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Toast from 'react-native-simple-toast';
+import MainScreen from './main/MainScreen'
+import commonStyles from '../styles'
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -14,6 +16,8 @@ const Tab = createBottomTabNavigator();
 const createView = (content: string) => (props) => (
   <View><Text>{content}</Text></View>
 )
+
+const createMainView = (content: string) => (props) => (<MainScreen title={content}><Text>{content}</Text></MainScreen>)
 
 const DatVeScreen = (props) => {
   return (
@@ -61,30 +65,17 @@ const HomeTab = (props: any) => {
   })
 
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen 
-          name='Home'
-          options={{
-            title: '',
-            headerRight: () => (
-              <View style={{flexDirection: 'row'}}>
-                <Button title='Cart' onPress={() => props.navigation.navigate('Cart')} />
-                <Button title='Notifications' onPress={() => props.navigation.navigate('Notifications')} />
-              </View>
-            ),
-            headerLeft: () => (
-              <Button title='Menu' onPress={() => props.navigation.toggleDrawer()} />
-            )
-          }}>
-        {() => (
-          <Tab.Navigator backBehavior='none'>
-            <Tab.Screen name='Dat Ve' component={DatVeScreen}></Tab.Screen>
-            <Tab.Screen name='Truc tuyen' component={createView('Truc tuyen')}></Tab.Screen>
-            <Tab.Screen name='Ket qua' component={createView('Ket qua')}></Tab.Screen>
-          </Tab.Navigator>
-        )}
-      </HomeStack.Screen>
-    </HomeStack.Navigator>
+    <MainScreen
+        title='Trang chủ'
+        navigation={props.navigation} 
+        onBellPress={() => props.navigation.navigate('Notifications')}
+        onCartPress={() => props.navigation.navigate('Cart')} >
+      <Tab.Navigator backBehavior='none'>
+        <Tab.Screen name='Dat Ve' component={DatVeScreen}></Tab.Screen>
+        <Tab.Screen name='Truc tuyen' component={createView('Truc tuyen')}></Tab.Screen>
+        <Tab.Screen name='Ket qua' component={createView('Ket qua')}></Tab.Screen>
+      </Tab.Navigator>
+    </MainScreen>
   )
 }
 
@@ -92,11 +83,11 @@ const HomeDrawer = (props: any) => {
   return (
     <Drawer.Navigator initialRouteName='Home' backBehavior='initialRoute' drawerType='front'>
       <Drawer.Screen name='Home' component={HomeTab} />
-      <Drawer.Screen name='History' component={createView('History')} />
-      <Drawer.Screen name='Cash In' component={createView('Cash In')} />
-      <Drawer.Screen name='Cash Out' component={createView('Cash Out')} />
-      <Drawer.Screen name='Guide' component={createView('Guide')} />
-      <Drawer.Screen name='Statistic' component={createView('Statistic')} />
+      <Drawer.Screen name='History' component={createMainView('History')} />
+      <Drawer.Screen name='Cash In' component={createMainView('Cash In')} />
+      <Drawer.Screen name='Cash Out' component={createMainView('Cash Out')} />
+      <Drawer.Screen name='Guide' component={createMainView('Guide')} />
+      <Drawer.Screen name='Statistic' component={createMainView('Statistic')} />
     </Drawer.Navigator>
   )
 }
@@ -106,7 +97,15 @@ const HomeScreen = (props: any) => {
   return (
     <NavigationContainer ref = {containerRef}>
       <Stack.Navigator screenOptions={{
-        animationEnabled: false
+        animationEnabled: false,
+        headerStyle: {
+          backgroundColor: commonStyles.mainColor,
+          height: 56
+        },
+        headerTintColor: '#ffffff',
+        headerTitleStyle: {
+          fontFamily: 'roboto-regular'
+        }
       }}>
         <Stack.Screen 
           name='HomeScreen' 
@@ -121,7 +120,7 @@ const HomeScreen = (props: any) => {
         <Stack.Screen name='Result Detail' component={createView('Result Detail')} />
         <Stack.Screen name='Order' component={createView('Order')} />
         <Stack.Screen name='Cart' component={createView('Cart')} />
-        <Stack.Screen name='Order Success' component={createView('Order Success')} />
+        <Stack.Screen name='Order Success' component={createMainView('Order Success')} />
       </Stack.Navigator>
     </NavigationContainer>
   )
