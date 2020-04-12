@@ -3,11 +3,13 @@
  */
 
 import 'react-native-gesture-handler';
-import {AppRegistry} from 'react-native';
+import {AppRegistry, Dimensions } from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import { Platform } from 'react-native';
 import firebase from '@react-native-firebase/app';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import commonStyle from './src/styles'
 
 const iosConfig = {
   clientId: '7407660873-1c3plqana9cgvo3kludb7tkmd0vjh4lh.apps.googleusercontent.com',
@@ -33,6 +35,19 @@ const androidConfig = {
   // enable persistence by adding the below flag
   persistence: true,
 };
+
+const width = Dimensions.get('window').width;
+EStyleSheet.build({
+  $rem: width > 340 ? 18 : 16,
+  $mainTextColor: "#ffffff",
+  $textColor: '#121212',
+  $inputTextColor: "#000000",
+  $mainBackgroundColor: commonStyle.mainColor,
+  $borderTextInputColor: "#D9D5DC",
+  $defaultFontSize: "1rem",
+  $iconColor: '#616161',
+  $backgroundColor: '#ffffff'
+});
 
 AppRegistry.registerComponent(appName, () => App);
 console.log('AppRegistry.registerComponent(appName, () => App)')

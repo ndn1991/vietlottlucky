@@ -1,8 +1,9 @@
 // @flow
 import React, { useState } from "react";
-import { ScrollView, StatusBar, View, Image, ActivityIndicator, StyleSheet } from "react-native";
+import { ScrollView, StatusBar, View, Image, ActivityIndicator } from "react-native";
 import commonStyles from '../../styles';
 import PhoneSignIn from './PhoneSignIn';
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const LoginWraper = (props: any) => {
   const [showLoading, setShowLoading] = useState(false)
@@ -27,24 +28,23 @@ const LoginWraper = (props: any) => {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: commonStyles.backgroundColor,
+    backgroundColor: '$backgroundColor',
   },
   topBar: {
-    height: 100,
-    backgroundColor: commonStyles.mainColor
+    height: '5rem',
+    backgroundColor: '$mainBackgroundColor'
   },
   logoContainer: {
-    height: 200,
-    backgroundColor: commonStyles.backgroundColor,
+    backgroundColor: '$backgroundColor',
   },
   logo: {
     flex: 1,
     flexDirection: "row",
     alignSelf: "center",
-    height: 200
+    height: '11rem'
   }
 });
 

@@ -1,11 +1,11 @@
 // @flow
 import React, { useState } from "react";
-import { Alert, View, Text, StyleSheet } from "react-native";
+import { Alert, View, Text } from "react-native";
 import auth from '@react-native-firebase/auth';
-import MaterialFixedLabelTextbox from "../../components/MaterialFixedLabelTextbox";
-import MaterialButtonPink from "../../components/MaterialButtonPink";
+import FixedLabelTextInput from "../../components/FixedLabelTextInput";
+import MainButton from "../../components/MainButton";
 import MaterialRightIconTextbox from "../../components/MaterialRightIconTextbox";
-import commonStyles from '../../styles'
+import EStyleSheet from "react-native-extended-stylesheet";
 
 function PhoneSignIn(props: any) {
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -58,15 +58,16 @@ function PhoneSignIn(props: any) {
     return (
       <View style={styles.body}>
         <Text style={styles.phoneNumberLabel}>Số điện thoại của bạn</Text>
-        <MaterialFixedLabelTextbox 
+        <FixedLabelTextInput 
+          label='+84'
+          keyboardType="number-pad"
           onChangeText={text => setPhoneNumber(text)}
-          style={styles.phoneNumberInput}
           editable={!showLoading}
           value={phoneNumber}
           onSubmitEditing={() => {loginWithPhoneNumber()}} />
-        <MaterialButtonPink
+        <MainButton
           onPress={() => {loginWithPhoneNumber()}}
-          style={styles.materialButtonPink}
+          style={styles.mainButton}
           buttonLabel="Tiếp tục"
           disabled={showLoading} />
       </View>
@@ -76,16 +77,17 @@ function PhoneSignIn(props: any) {
       <View style={styles.body}>
         <Text style={styles.phoneNumberLabel}>Vui lòng nhập mã xác nhận</Text>
         <MaterialRightIconTextbox
-          textInput1="Mã xác nhận"
+          textInput="Mã xác nhận"
           style={styles.phoneNumberInput}
           keyboardType="number-pad"
           onChangeText={text => setCode(text)}
           editable={!showLoading}
           value={code}
+          iconName='code-tags'
           onSubmitEditing={() => {verifyLoginCode()}} />
-        <MaterialButtonPink 
+        <MainButton 
           onPress={() => {verifyLoginCode()}}
-          style={styles.materialButtonPink}
+          style={styles.mainButton}
           buttonLabel="Xác nhận"
           disabled={showLoading} />
         <Text style={styles.changePhoneNumber} onPress={() => setConfirm(null)}>Thay đổi số điện thoại</Text>
@@ -94,33 +96,30 @@ function PhoneSignIn(props: any) {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: commonStyles.backgroundColor,
-    paddingLeft: 20,
-    paddingRight: 20,
+    backgroundColor: '$backgroundColor',
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
   },
   phoneNumberLabel: {
-    ...commonStyles.mainLabel,
-    marginTop: 18
+    color: "$textColor",
+    fontSize: '1rem',
+    fontFamily: "calibri-bold",
+    marginTop: '1rem'
   },
-  phoneNumberInput: {
-    height: 50,
-    marginTop: 3
-  },
-  materialButtonPink: {
-    width: 200,
-    height: 50,
-    marginTop: 12,
-    marginBottom: 20,
+  mainButton: {
+    marginTop: '1rem',
     alignSelf: "center"
   },
   changePhoneNumber: {
-    color: commonStyles.mainLabel.color,
+    color: '$textColor',
     fontFamily: "roboto-regular",
     textDecorationLine: "underline",
-    alignSelf: "center"
+    alignSelf: "center",
+    marginTop: '1rem',
+    fontSize: '0.7rem'
   }
 });
 

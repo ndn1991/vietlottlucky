@@ -16,6 +16,9 @@
 ## Change ios bundle identifier setup
   - 
 
+## apply vector-icons
+  - https://github.com/oblador/react-native-vector-icons
+
 ## Fix bug 'Cannot fit requested classes in a single dex file'
   - adjust build.gradle, app/build.gradle: set minSdkVersionto 21
 

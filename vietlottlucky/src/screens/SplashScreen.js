@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import React from "react";
+import { View, Image } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
-function SplashScreen(props) {
+function SplashScreen() {
   return (
     <View style={styles.container}>
       <Image
@@ -13,7 +14,7 @@ function SplashScreen(props) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "rgba(255,255,255,1)",

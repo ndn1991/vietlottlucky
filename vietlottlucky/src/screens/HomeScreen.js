@@ -1,8 +1,8 @@
 // @flow
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Button, BackHandler, AppState } from "react-native";
 import { NavigationContainerRef, NavigationContainer, useFocusEffect } from '@react-navigation/native'
-import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Toast from 'react-native-simple-toast';

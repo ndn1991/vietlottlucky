@@ -1,47 +1,41 @@
-import React, { Component } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
+import React from "react";
+import { View, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 function MaterialRightIconTextbox(props) {
   return (
     <View style={[styles.container, props.style]}>
       <TextInput
-        placeholder={props.textInput1 || "Label"}
+        placeholder={props.textInput || "Label"}
         style={styles.inputStyle}
         keyboardType={props.keyboardType}
         onChangeText={props.onChangeText} 
         onSubmitEditing={props.onSubmitEditing}
         editable={props.editable}
-        value={props.value}
-      ></TextInput>
+        value={props.value} />
+      <Icon name={props.iconName || 'eye'} style={styles.iconStyle} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
-    backgroundColor: "transparent",
     flexDirection: "row",
     alignItems: "center",
-    borderColor: "#D9D5DC",
+    borderColor: "$borderTextInputColor",
     borderBottomWidth: 1
   },
   inputStyle: {
     flex: 1,
-    color: "#000",
-    alignSelf: "stretch",
-    paddingTop: 14,
-    paddingRight: 16,
-    paddingBottom: 8,
-    fontSize: 16,
+    color: "$inputTextColor",
+    alignSelf: "flex-end",
+    fontSize: '1rem',
     fontFamily: "roboto-regular",
-    lineHeight: 16
   },
   iconStyle: {
-    color: "#616161",
-    fontFamily: "Roboto",
-    fontSize: 24,
-    paddingRight: 8
+    color: "$iconColor",
+    fontSize: '1.5rem',
   }
 });
 
