@@ -23,7 +23,7 @@ const LoginWraper = (props: any) => {
           style={styles.logo} />
       </View>
       <PhoneSignIn setShowLoading={value => setShowLoading(value)} loginSuccess={props.loginSuccess} />
-      <ActivityIndicator animating={showLoading} size="large" color={commonStyles.mainColor} />
+      <ActivityIndicator animating={showLoading} size="large" color={commonStyles.mainColor} style={styles.indicator} />
     </ScrollView>
   );
 }
@@ -45,6 +45,9 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     height: '11rem'
+  },
+  indicator: {
+    marginTop: '1rem'
   }
 });
 

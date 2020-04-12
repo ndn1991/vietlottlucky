@@ -42,15 +42,11 @@ function PhoneSignIn(props: any) {
       Alert.alert('Thông báo', 'Hãy nhập mã xác thực')
     } else {
       _setShowLoading(true)
-      try {
-        await (confirm: any).confirm(code)
-        props.loginSuccess()
-      } catch (error) {
-        console.log('error when verify login code', error)
-        Alert.alert('Thông báo', 'Sai mã xác nhận')
-      } finally {
-        _setShowLoading(false)
-      }
+      confirm.confirm(code).then(() => { 
+        props.loginSuccess() },
+        (error) => { Alert.alert('Thông báo', 'Sai mã xác nhận') }, 
+        () => { _setShowLoading(false) 
+      })
     }
   }
 
