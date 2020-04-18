@@ -1,10 +1,10 @@
 // @flow
 
 import { combineReducers } from 'redux'
-import { authenticationStatus } from "./authentication";
+import { loginSuccess } from "./authentication";
 
 const rootReducer = combineReducers({
-  authenticationInformation: authenticationStatus
+  loginSuccess
 })
 
 export default rootReducer

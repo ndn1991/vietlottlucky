@@ -1,12 +1,11 @@
 // @flow
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, StatusBar, View, Image, ActivityIndicator } from "react-native";
 import commonStyles from '../../styles';
 import PhoneSignIn from './PhoneSignIn';
 import EStyleSheet from "react-native-extended-stylesheet";
 
-const LoginWraper = (props: any) => {
-  const [showLoading, setShowLoading] = useState(false)
+const LoginWraper = () => {
   return (
     <ScrollView style={styles.container}>
       <StatusBar
@@ -22,8 +21,7 @@ const LoginWraper = (props: any) => {
           resizeMode="contain"
           style={styles.logo} />
       </View>
-      <PhoneSignIn setShowLoading={value => setShowLoading(value)} loginSuccess={props.loginSuccess} />
-      <ActivityIndicator animating={showLoading} size="large" color={commonStyles.mainColor} style={styles.indicator} />
+      <PhoneSignIn />
     </ScrollView>
   );
 }

@@ -10,6 +10,7 @@ import { Platform } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import commonStyle from './src/styles'
+import messaging from '@react-native-firebase/messaging';
 
 const iosConfig = {
   clientId: '7407660873-1c3plqana9cgvo3kludb7tkmd0vjh4lh.apps.googleusercontent.com',
@@ -46,7 +47,9 @@ EStyleSheet.build({
   $borderTextInputColor: "#D9D5DC",
   $defaultFontSize: "1rem",
   $iconColor: '#616161',
-  $backgroundColor: '#ffffff'
+  $backgroundColor: '#ffffff',
+  $pinkColor: '#E91E63',
+  $yellowColor: 'rgba(248,231,28,1)'
 });
 
 AppRegistry.registerComponent(appName, () => App);
@@ -59,5 +62,21 @@ const vietlottLuckyApp = firebase
     // name of this app
     'Vietlott Lucky',
   )
-  .then(app => console.log('initialized apps ->', firebase.apps));
+  .then(async (app) => {
+    console.log('initialized apps ->', firebase.apps)
+    await requestUserPermission();
+  });
 console.log('initializing firebase app')
+
+async function registerAppWithFCM() {
+  await messaging().registerDeviceForRemoteMessages();
+}
+
+async function requestUserPermission() {
+  const settings = await messaging().requestPermission();
+
+  if (settings) {
+    console.log('Permission settings:', settings);
+    registerAppWithFCM()
+  }
+}
