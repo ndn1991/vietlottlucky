@@ -1,12 +1,14 @@
 // @flow
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
-import MaterialPasswordInput from "../../components/MaterialPasswordInput";
-import MainButton from "../../components/MainButton";
+import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import MaterialRightIconTextbox from '../../components/MaterialRightIconTextbox'
+import { connect } from "react-redux";
+import { startRegister } from "../../actions/authentication";
+import MainButton from "../../components/MainButton";
+import MaterialPasswordInput from "../../components/MaterialPasswordInput";
+import MaterialRightIconTextbox from '../../components/MaterialRightIconTextbox';
 
-const EnterPasswordForRegister  = (props: any) => {
+const EnterPasswordForRegister = (props: any) => {
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
   const [displayName, setDisplayName] = useState('')
@@ -21,7 +23,7 @@ const EnterPasswordForRegister  = (props: any) => {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.phoneNumberLabel}>Vui lòng nhập thông tin tài khoản</Text>
+      <Text style={styles.phoneNumberLabel}>Nhập thông tin tài khoản</Text>
       <MaterialPasswordInput
         textInput="Mật khẩu"
         style={styles.phoneNumberInput}
@@ -36,7 +38,7 @@ const EnterPasswordForRegister  = (props: any) => {
         textInput="Tên hiển thị"
         onChangeText={setDisplayName}
         onSubmitEditing={register} />
-      <MainButton 
+      <MainButton
         onPress={register}
         style={styles.mainButton}
         buttonLabel="Xác nhận" />
@@ -63,4 +65,10 @@ const styles = EStyleSheet.create({
   }
 });
 
-export default EnterPasswordForRegister
+const mapDispatchToProps = (dispatch: Function) => ({
+  register: (password: string, displayName: string) => {
+    dispatch(startRegister(password, displayName))
+  }
+})
+
+export default connect(null, mapDispatchToProps)(EnterPasswordForRegister)

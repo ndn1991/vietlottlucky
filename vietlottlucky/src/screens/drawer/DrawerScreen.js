@@ -6,18 +6,24 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MainScreen from '../main/MainScreen';
 import MainDrawerContent from './DrawerContent';
 import HomeTab from '../bottomTab/BottomTabScreen';
+import auth from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
 
 const createMainView = (content: string) => (props) => (<MainScreen title={content}><Text>{content}</Text></MainScreen>)
 
 const HomeDrawer = (props: any) => {
+
+  const logout = () => {
+    auth().signOut();
+  }
+
   return (
     <Drawer.Navigator 
         initialRouteName='Home' 
         backBehavior='initialRoute' 
         drawerType='front'
-        drawerContent={(props) => (<MainDrawerContent {...props}></MainDrawerContent>)} >
+        drawerContent={(props) => (<MainDrawerContent {...props} logout={logout}></MainDrawerContent>)} >
       <Drawer.Screen name='Home' component={HomeTab} options={{drawerIcon: () => (<Icon name='home' style={{fontSize: 22}} />)}} />
       <Drawer.Screen name='History' component={createMainView('History')} options={{drawerIcon: () => (<Icon name='history' style={{fontSize: 22}} />)}} />
       <Drawer.Screen name='Cash In' component={createMainView('Cash In')} options={{drawerIcon: () => (<Icon name='cash-100' style={{fontSize: 22}} />)}} />

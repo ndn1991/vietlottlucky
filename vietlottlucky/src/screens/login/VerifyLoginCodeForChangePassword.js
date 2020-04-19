@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
-import { chooseAnotherPhoneNumber, startVerifyLoginCode } from "../../actions/authentication";
+import { chooseAnotherPhoneNumber, startVerifyLoginCodeForChangePassword } from "../../actions/authentication";
 import MainButton from "../../components/MainButton";
 import MaterialRightIconTextbox from "../../components/MaterialRightIconTextbox";
 
-const VerifyLoginCode = (props: any) => {
+const VerifyLoginCodeForChangePassword = (props: any) => {
   const [code, setCode] = useState('')
   return (
     <View style={styles.body}>
@@ -57,11 +57,11 @@ const styles = EStyleSheet.create({
 
 const mapDispatchToProps = (dispatch: Function) => ({
   verifyLoginCode: (code: string) => {
-    dispatch(startVerifyLoginCode(code))
+    dispatch(startVerifyLoginCodeForChangePassword(code))
   },
   changePhoneNumber: () => {
     dispatch(chooseAnotherPhoneNumber())
   }
 })
 
-export default connect(null, mapDispatchToProps)(VerifyLoginCode)
+export default connect(null, mapDispatchToProps)(VerifyLoginCodeForChangePassword)

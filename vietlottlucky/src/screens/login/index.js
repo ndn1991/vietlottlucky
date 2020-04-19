@@ -1,9 +1,9 @@
 // @flow
 import React from "react";
-import { ScrollView, StatusBar, View, Image, ActivityIndicator } from "react-native";
+import { Image, ScrollView, StatusBar, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import commonStyles from '../../styles';
 import PhoneSignIn from './PhoneSignIn';
-import EStyleSheet from "react-native-extended-stylesheet";
 
 const LoginWraper = () => {
   return (

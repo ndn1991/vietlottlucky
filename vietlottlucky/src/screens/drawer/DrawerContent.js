@@ -41,6 +41,8 @@ function MainDrawerContent(props: any) {
         </View>
       </View>
       <DrawerItemList  {...props} />
+      <DrawerItem icon={() => (<Icon name='arrow-left-bold-hexagon-outline' style={{fontSize: 22}} />)} 
+        label='Logout' onPress={props.logout} />
       <View style={styles.footer}>
         <Text style={styles.footerText}>Version: 1.0.0</Text>
       </View>
