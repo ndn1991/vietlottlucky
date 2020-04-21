@@ -1,11 +1,18 @@
 // @flow
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, ScrollView, StatusBar, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import commonStyles from '../../styles';
 import PhoneSignIn from './PhoneSignIn';
 
 const LoginWraper = () => {
+  useEffect(() => {
+    console.log('LoginWraper re-render')
+    return () => {
+      console.log('LoginWraper unmount')
+    }
+  })
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar

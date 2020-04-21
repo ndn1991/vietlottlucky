@@ -3,14 +3,14 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
-import React, { Component } from 'react';
-import { loginAuto, logout } from './src/actions/authentication';
+import React, { Component, memo } from 'react';
+import { Provider, connect } from 'react-redux';
+import { loginAuto, logout, verifyLoginCode } from './src/actions/authentication';
 import ApplicationLoader from './src/ApplicationsLoader';
 import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/login';
 import SplashScreen from './src/screens/SplashScreen';
 import store from './store';
-import { Provider } from 'react-redux';
 
 const MainApp = (props: any) => {
   if (!props.initialized) {
@@ -22,31 +22,32 @@ const MainApp = (props: any) => {
   }
 }
 
-export default class App extends Component<{}, {initialized: boolean, loginSuccess: boolean}> {
+const mapStateToProps = (state, ownProps) => {
+  if (state.authenticationStatus.state === 'LOGGED_IN') {
+    return Object.assign({}, ownProps, {loginSuccess: true});
+  } else if (state.authenticationStatus.state === '') {
+    return Object.assign({}, ownProps, {loginSuccess: false});
+  }
+  return ownProps;
+}
 
-  unsubscribeStore: Function;
+const CachedMainApp = memo(connect(mapStateToProps)(MainApp))
+
+export default class App extends Component<{}, {initialized: boolean}> {
   ubsubscribeRefreshToken: Function
 
   constructor() {
     super();
+    console.log('App created')
     this.state = {
       initialized: false,
-      loginSuccess: false
     }
   }
 
   componentDidMount() {
-    this.unsubscribeStore = store.subscribe(() => {
-      console.log('state', store.getState())
-      if (store.getState().authenticationStatus.state === 'LOGGED_IN') {
-        this.setState(Object.assign({}, this.state, {loginSuccess: true}))
-      } else if (store.getState().authenticationStatus.state === '') {
-        this.setState(Object.assign({}, this.state, {loginSuccess: false}))
-      }
-    });
-
+    console.log('App re-render')
     auth().onAuthStateChanged(async (user) => {
-      console.log('onAuthStateChanged', user)
+      // console.log('onAuthStateChanged', user ? true : false)
       if (user) {
         if (!this.state.initialized) {
           if (user.providerData.find(ele => ele.providerId === 'password')) {
@@ -55,6 +56,8 @@ export default class App extends Component<{}, {initialized: boolean, loginSucce
             const firestoreUser = (await firestore().doc(`users/${user.uid}`).get()).data()
             if (firestoreUser && firestoreUser.registered) {
               store.dispatch(loginAuto(user))
+            } else {
+              store.dispatch(verifyLoginCode(user))
             }
           }
         }
@@ -73,11 +76,9 @@ export default class App extends Component<{}, {initialized: boolean, loginSucce
   }
 
   componentWillUnmount() {
+    console.log('App unmount')
     if (this.ubsubscribeRefreshToken) {
       this.ubsubscribeRefreshToken()
-    }
-    if (this.unsubscribeStore) {
-      this.unsubscribeStore()
     }
   }
   
@@ -85,7 +86,7 @@ export default class App extends Component<{}, {initialized: boolean, loginSucce
     return (
       <Provider store={store}>
         <ApplicationLoader />
-        <MainApp initialized={this.state.initialized} loginSuccess={this.state.loginSuccess} />
+        <CachedMainApp initialized={this.state.initialized} />
       </Provider>
     ) 
   }

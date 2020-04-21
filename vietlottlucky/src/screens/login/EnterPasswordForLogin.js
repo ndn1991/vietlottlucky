@@ -6,15 +6,16 @@ import { connect } from "react-redux";
 import { startLoginWithPassword } from "../../actions/authentication";
 import MainButton from "../../components/MainButton";
 import MaterialPasswordInput from "../../components/MaterialPasswordInput";
+import I18n from '../../i18n/i18n'
 
 const EnterPasswordForLogin = (props: any) => {
   const [password, setPassword] = useState('')
 
   return (
     <View style={styles.body}>
-      <Text style={styles.phoneNumberLabel}>Nhập mật khẩu để đăng nhập</Text>
+      <Text style={styles.phoneNumberLabel}>{I18n.t('textPasswordToLogin')}</Text>
       <MaterialPasswordInput
-        textInput="Mật khẩu"
+        textInput={I18n.t('placeHolderPassword')}
         style={styles.phoneNumberInput}
         keyboardType="default"
         onChangeText={setPassword}
@@ -22,7 +23,7 @@ const EnterPasswordForLogin = (props: any) => {
       <MainButton
         onPress={() => { props.login(password) }}
         style={styles.mainButton}
-        buttonLabel="Xác nhận" />
+        buttonLabel={I18n.t('buttonLabelConfirm')} />
     </View>
   )
 }

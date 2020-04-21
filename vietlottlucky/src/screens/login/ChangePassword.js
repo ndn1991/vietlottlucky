@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { startChangePassword } from "../../actions/authentication";
 import MainButton from "../../components/MainButton";
 import MaterialPasswordInput from "../../components/MaterialPasswordInput";
+import I18n from '../../i18n/i18n'
 
 const ChangePassword = (props: any) => {
   const [password, setPassword] = useState('')
@@ -13,7 +14,7 @@ const ChangePassword = (props: any) => {
 
   const changePassword = () => {
     if (password !== password2) {
-      Alert.alert('Mật khẩu 2 lần phải giống nhau')
+      Alert.alert(I18n.t('alertTitleInform'), I18n.t('alertContentTwoPasswordNotMatch'))
     } else {
       props.changePassword(password)
     }
@@ -21,14 +22,14 @@ const ChangePassword = (props: any) => {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.phoneNumberLabel}>Nhập mật khẩu mới</Text>
+      <Text style={styles.phoneNumberLabel}>{I18n.t('textEnterNewPassword')}</Text>
       <MaterialPasswordInput
-        textInput="Mật khẩu"
+        textInput={I18n.t('placeHolderPassword')}
         style={styles.phoneNumberInput}
         keyboardType="default"
         onChangeText={setPassword} />
       <MaterialPasswordInput
-        textInput="Xác nhận mật khẩu"
+        textInput={I18n.t('placeHolderPasswordAgain')}
         style={styles.phoneNumberInput}
         keyboardType="default"
         onChangeText={setPassword2}
@@ -36,7 +37,7 @@ const ChangePassword = (props: any) => {
       <MainButton
         onPress={changePassword}
         style={styles.mainButton}
-        buttonLabel="Xác nhận" />
+        buttonLabel={I18n.t('buttonLabelConfirm')} />
     </View>
   )
 }

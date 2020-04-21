@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { AuthenticationState } from "../../../store";
 import ChangePassword from "./ChangePassword";
@@ -10,6 +10,13 @@ import VerifyLoginCode from "./VerifyLoginCode";
 import VerifyLoginCodeForChangePassword from "./VerifyLoginCodeForChangePassword";
 
 function PhoneSignIn(props: any) {
+  useEffect(() => {
+    console.log('PhoneSignIn re-render')
+    return () => {
+      console.log('PhoneSignIn unmount')
+    }
+  })
+
   switch (props.authenticationStatus) {
     case 'HAS_PHONE_FOR_LOGIN':
       return (<VerifyLoginCode />)

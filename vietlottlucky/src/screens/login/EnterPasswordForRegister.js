@@ -7,6 +7,7 @@ import { startRegister } from "../../actions/authentication";
 import MainButton from "../../components/MainButton";
 import MaterialPasswordInput from "../../components/MaterialPasswordInput";
 import MaterialRightIconTextbox from '../../components/MaterialRightIconTextbox';
+import I18n from '../../i18n/i18n'
 
 const EnterPasswordForRegister = (props: any) => {
   const [password, setPassword] = useState('')
@@ -15,7 +16,7 @@ const EnterPasswordForRegister = (props: any) => {
 
   const register = () => {
     if (password !== password2) {
-      Alert.alert('Mật khẩu 2 lần phải giống nhau')
+      Alert.alert(I18n.t('alertTitleInform'), I18n.t('alertContentTwoPasswordNotMatch'))
     } else {
       props.register(password, displayName)
     }
@@ -23,25 +24,25 @@ const EnterPasswordForRegister = (props: any) => {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.phoneNumberLabel}>Nhập thông tin tài khoản</Text>
+      <Text style={styles.phoneNumberLabel}>{I18n.t('textAccountInformation')}</Text>
       <MaterialPasswordInput
-        textInput="Mật khẩu"
+        textInput={I18n.t('placeHolderPassword')}
         style={styles.phoneNumberInput}
         keyboardType="default"
         onChangeText={setPassword} />
       <MaterialPasswordInput
-        textInput="Xác nhận mật khẩu"
+        textInput={I18n.t('placeHolderPasswordAgain')}
         style={styles.phoneNumberInput}
         keyboardType="default"
         onChangeText={setPassword2} />
       <MaterialRightIconTextbox
-        textInput="Tên hiển thị"
+        textInput={I18n.t('placeHolderDisplayName')}
         onChangeText={setDisplayName}
         onSubmitEditing={register} />
       <MainButton
         onPress={register}
         style={styles.mainButton}
-        buttonLabel="Xác nhận" />
+        buttonLabel={I18n.t('buttonLabelConfirm')} />
     </View>
   )
 }

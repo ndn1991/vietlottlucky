@@ -2,7 +2,6 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { Alert } from 'react-native';
-import store from '../../store';
 import { emailFromPhoneNumber, standardPhoneNumber } from '../utils/AuthenticationItils';
 import { turnOffLoading, turnOnLoading } from './index';
 import { AuthenticationActions } from './constants';
@@ -21,7 +20,7 @@ export const loginAuto = (user: FirebaseAuthTypes.UserCredential) => ({type: Aut
 export const chooseAnotherPhoneNumber = () => ({type: AuthenticationActions.CHOOSE_ANOTHER_PHONE_NUMBER})
 export const logout = () => ({type: AuthenticationActions.LOGOUT})
 
-export const startLogin = (phoneNumber: string) => async (dispatch: (action: any) => any) => {
+export const startLogin = (phoneNumber: string) => async (dispatch: Function) => {
   dispatch(turnOnLoading())
   try {
     const authenProviders = await auth().fetchSignInMethodsForEmail(emailFromPhoneNumber(phoneNumber))
@@ -39,7 +38,7 @@ export const startLogin = (phoneNumber: string) => async (dispatch: (action: any
   }
 }
 
-export const startForgotPassword = (phoneNumber: string) => async (dispatch: (action: any) => any) => {
+export const startForgotPassword = (phoneNumber: string) => async (dispatch: Function) => {
   dispatch(turnOnLoading())
   try {
     const authenProviders = await auth().fetchSignInMethodsForEmail(emailFromPhoneNumber(phoneNumber))
@@ -57,10 +56,10 @@ export const startForgotPassword = (phoneNumber: string) => async (dispatch: (ac
   }
 }
 
-export const startLoginWithPassword = (password: string) => async (dispatch: (action: any) => any) => {
+export const startLoginWithPassword = (password: string) => async (dispatch: Function, getState: Function) => {
   dispatch(turnOnLoading())
   try {
-    const phoneNumber: string = store.getState().authenticationStatus.phoneNumber
+    const phoneNumber: string = getState().authenticationStatus.phoneNumber
     const user = await auth().signInWithEmailAndPassword(emailFromPhoneNumber(phoneNumber), password)
     dispatch(loginByPassword(user))
   } catch (error) {
@@ -71,10 +70,10 @@ export const startLoginWithPassword = (password: string) => async (dispatch: (ac
   }
 }
 
-export const startVerifyLoginCode = (code: string) => async (dispatch: (action: any) => any) => {
+export const startVerifyLoginCode = (code: string) => async (dispatch: Function, getState: Function) => {
   dispatch(turnOnLoading())
   try {
-    const confirm: FirebaseAuthTypes.ConfirmationResult = store.getState().authenticationStatus.confirm
+    const confirm: FirebaseAuthTypes.ConfirmationResult = getState().authenticationStatus.confirm
     const user = await confirm.confirm(code);
     dispatch(verifyLoginCode(user))
   } catch (error) {
@@ -85,10 +84,10 @@ export const startVerifyLoginCode = (code: string) => async (dispatch: (action: 
   }
 }
 
-export const startVerifyLoginCodeForChangePassword = (code: string) => async (dispatch: (action: any) => any) => {
+export const startVerifyLoginCodeForChangePassword = (code: string) => async (dispatch: Function, getState: Function) => {
   dispatch(turnOnLoading())
   try {
-    const confirm: FirebaseAuthTypes.ConfirmationResult = store.getState().authenticationStatus.confirm
+    const confirm: FirebaseAuthTypes.ConfirmationResult = getState().authenticationStatus.confirm
     const user = await confirm.confirm(code);
     dispatch(verifyLoginCodeForChangePassword(user))
   } catch (error) {
@@ -99,10 +98,10 @@ export const startVerifyLoginCodeForChangePassword = (code: string) => async (di
   }
 }
 
-export const startRegister = (password: string, displayName: string) => async (dispatch: (action: any) => any) => {
+export const startRegister = (password: string, displayName: string) => async (dispatch: Function, getState: Function) => {
   dispatch(turnOnLoading())
   try {
-    const uid: string = store.getState().authenticationStatus.user.uid
+    const uid: string = getState().authenticationStatus.user.uid
     await firestore().collection('users').doc(uid).set({
       password,
       displayName
@@ -116,13 +115,13 @@ export const startRegister = (password: string, displayName: string) => async (d
   }
 }
 
-export const startChangePassword = (password: string) => async (dispatch: (action: any) => any) => {
+export const startChangePassword = (password: string) => async (dispatch: Function, getState: Function) => {
   dispatch(turnOnLoading())
   try {
     if (password.length < 6) {
       Alert.alert('Thông báo', 'Mật khẩu phải lớn hơn 6 kí tự')
     } else {
-      const uid: string = store.getState().authenticationStatus.user.uid
+      const uid: string = getState().authenticationStatus.user.uid
       await firestore().collection('users').doc(uid).set({ password }, {merge: true})
       dispatch(register())
     }

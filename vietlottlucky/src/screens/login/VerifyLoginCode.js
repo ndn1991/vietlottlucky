@@ -6,14 +6,15 @@ import { connect } from "react-redux";
 import { chooseAnotherPhoneNumber, startVerifyLoginCode } from "../../actions/authentication";
 import MainButton from "../../components/MainButton";
 import MaterialRightIconTextbox from "../../components/MaterialRightIconTextbox";
+import I18n from '../../i18n/i18n'
 
 const VerifyLoginCode = (props: any) => {
   const [code, setCode] = useState('')
   return (
     <View style={styles.body}>
-      <Text style={styles.phoneNumberLabel}>Vui lòng nhập mã xác nhận</Text>
+      <Text style={styles.phoneNumberLabel}>{I18n.t('textVerificationCode')}</Text>
       <MaterialRightIconTextbox
-        textInput="Mã xác nhận"
+        textInput={I18n.t('placeHolderVerificationCode')}
         style={styles.phoneNumberInput}
         keyboardType="number-pad"
         onChangeText={setCode}
@@ -22,8 +23,8 @@ const VerifyLoginCode = (props: any) => {
       <MainButton
         onPress={() => { props.verifyLoginCode(code) }}
         style={styles.mainButton}
-        buttonLabel="Xác nhận" />
-      <Text style={styles.changePhoneNumber} onPress={() => props.changePhoneNumber()}>Thay đổi số điện thoại</Text>
+        buttonLabel={I18n.t('buttonLabelConfirm')} />
+      <Text style={styles.changePhoneNumber} onPress={() => props.changePhoneNumber()}>{I18n.t('textChangePhoneNumber')}</Text>
     </View>
   )
 }

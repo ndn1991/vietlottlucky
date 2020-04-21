@@ -1,19 +1,20 @@
 
 // @flow
 import React, { useState } from "react";
-import { Text, View, Alert } from "react-native";
+import { Alert, Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
 import { startForgotPassword, startLogin } from '../../actions/authentication';
 import FixedLabelTextInput from "../../components/FixedLabelTextInput";
 import MainButton from "../../components/MainButton";
-import { standardPhoneNumberWithoutCountryCode } from '../../utils/AuthenticationItils'
+import { standardPhoneNumberWithoutCountryCode } from '../../utils/AuthenticationItils';
+import I18n from '../../i18n/i18n'
 
 const EnterLoginPhoneNumber = (props: any) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   return (
     <View style={styles.body}>
-      <Text style={styles.phoneNumberLabel}>Số điện thoại của bạn</Text>
+      <Text style={styles.phoneNumberLabel}>{I18n.t('textPhoneNumberToLogin')}</Text>
       <FixedLabelTextInput
         label='+84'
         keyboardType="number-pad"
@@ -22,8 +23,8 @@ const EnterLoginPhoneNumber = (props: any) => {
       <MainButton
         onPress={() => { props.loginWithPhoneNumber(phoneNumber) }}
         style={styles.mainButton}
-        buttonLabel="Tiếp tục" />
-      <Text style={styles.forgotPassword} onPress={() => props.forgotPassword(phoneNumber)}>Quên mật khẩu</Text>
+        buttonLabel={I18n.t('labelButtonContinue')} />
+      <Text style={styles.forgotPassword} onPress={() => props.forgotPassword(phoneNumber)}>{I18n.t('textForgotPassword')}</Text>
     </View>
   )
 }
@@ -59,7 +60,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
   loginWithPhoneNumber: (phoneNumber) => {
     const sendPhoneNumber = standardPhoneNumberWithoutCountryCode(phoneNumber);
     if (sendPhoneNumber.length !== 9) {
-      Alert.alert('Thông báo', 'Hãy nhập đúng số điện thoại')
+      Alert.alert(I18n.t('alertTitleInform'), I18n.t('alertContentWrongPhoneFormat'))
     } else {
       dispatch(startLogin(phoneNumber))
     }
@@ -67,7 +68,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
   forgotPassword: (phoneNumber) => {
     const sendPhoneNumber = standardPhoneNumberWithoutCountryCode(phoneNumber);
     if (sendPhoneNumber.length !== 9) {
-      Alert.alert('Thông báo', 'Hãy nhập đúng số điện thoại')
+      Alert.alert(I18n.t('alertTitleInform'), I18n.t('alertContentWrongPhoneFormat'))
     } else {
       dispatch(startForgotPassword(phoneNumber))
     }
