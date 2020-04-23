@@ -16,5 +16,6 @@ export const AuthenticationActions = {
 
 export const ApplicationActions = {
   TURN_ON_LOADING: 'TURN_ON_LOADING',
-  TURN_OFF_LOADING: 'TURN_OFF_LOADING'
+  TURN_OFF_LOADING: 'TURN_OFF_LOADING',
+  CHANGE_LANGUAGE: 'CHANGE_LANGUAGE'
 }

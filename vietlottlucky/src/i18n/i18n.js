@@ -1,20 +1,16 @@
 // @flow
 
-import I18n, { getLanguages } from 'react-native-i18n';
 import en from './locales/en';
 import vi from './locales/vi';
+import i18n from "i18n-js";
 
-I18n.fallbacks = true;
-I18n.translations = {
-  en,
-  vi
+i18n.translations = { en, vi };
+
+export const setI18nConfig = (lang: string) => {
+  const fallback = 'en'
+  const languageTag = ['en', 'vi'].includes(lang) ? lang : fallback
+
+  i18n.locale = languageTag;
 };
-I18n.defaultLocale = 'en';
 
-getLanguages().then(languages => {
-  if (languages && languages.length > 0) {
-    I18n.locale = languages[0];
-  }
-})
-
-export default I18n;
+export default i18n;

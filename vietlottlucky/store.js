@@ -10,7 +10,8 @@ export type AuthenticationState = {
 }
 export type ApplicationState = {
   isLoading: boolean,
-  authenticationStatus: AuthenticationState
+  authenticationStatus: AuthenticationState,
+  language: string
 }
 
 export default store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

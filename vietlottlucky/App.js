@@ -3,14 +3,18 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
-import React, { Component, memo } from 'react';
-import { Provider, connect } from 'react-redux';
+import i18n from "i18n-js";
+import React, { Component } from 'react';
+import * as RNLocalize from 'react-native-localize';
+import { connect, Provider } from 'react-redux';
 import { loginAuto, logout, verifyLoginCode } from './src/actions/authentication';
 import ApplicationLoader from './src/ApplicationsLoader';
+import { setI18nConfig } from './src/i18n/i18n';
 import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/login';
 import SplashScreen from './src/screens/SplashScreen';
 import store from './store';
+import { changeLang } from './src/actions';
 
 const MainApp = (props: any) => {
   if (!props.initialized) {
@@ -31,17 +35,24 @@ const mapStateToProps = (state, ownProps) => {
   return ownProps;
 }
 
-const CachedMainApp = memo(connect(mapStateToProps)(MainApp))
+const CachedMainApp = connect(mapStateToProps)(MainApp)
 
 export default class App extends Component<{}, {initialized: boolean}> {
   ubsubscribeRefreshToken: Function
+  unsubscribeStore: Function
 
   constructor() {
     super();
     console.log('App created')
+    const fallback = { languageTag: "en", isRTL: false };
+    const { languageTag, isRTL } = RNLocalize.findBestAvailableLanguage(['en', 'vi']) || fallback;
+
     this.state = {
       initialized: false,
     }
+
+    setI18nConfig(languageTag)
+    store.dispatch(changeLang(languageTag))
   }
 
   componentDidMount() {
@@ -73,12 +84,22 @@ export default class App extends Component<{}, {initialized: boolean}> {
       }
       this.setState(Object.assign({}, this.state, {initialized: true}))
     });
+
+    this.unsubscribeStore = store.subscribe(() => {
+      if (i18n.locale !== store.getState().language) {
+        console.log('language change from', i18n.locale, 'to', store.getState().language)
+        setI18nConfig(store.getState().language)
+      }
+    })
   }
 
   componentWillUnmount() {
     console.log('App unmount')
     if (this.ubsubscribeRefreshToken) {
       this.ubsubscribeRefreshToken()
+    }
+    if (this.unsubscribeStore) {
+      this.unsubscribeStore()
     }
   }
   

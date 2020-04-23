@@ -15,9 +15,19 @@ const isLoading = (state: boolean = false, action: {type: string}) => {
   }
 }
 
+const language = (state: string = 'en', action: {type: string, lang: string}) => {
+  switch (action.type) {
+    case ApplicationActions.CHANGE_LANGUAGE:
+      return action.lang;
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   isLoading,
-  authenticationStatus
+  authenticationStatus,
+  language
 })
 
 
