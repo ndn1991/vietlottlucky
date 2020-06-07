@@ -40,6 +40,7 @@ const androidConfig = {
 const width = Dimensions.get('window').width;
 EStyleSheet.build({
   $rem: width > 340 ? 18 : 16,
+  $fullWidth: width,
   $mainTextColor: "#ffffff",
   $textColor: '#121212',
   $inputTextColor: "#000000",

@@ -10,22 +10,14 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import EStyleSheet from 'react-native-extended-stylesheet';
 import commonStyles from '../../styles'
+import TicketBookingScreen from './TicketBookingScreen';
+import LiveStreamScreen from './LiveStreamScreen'
 
 const Tab = createBottomTabNavigator();
 
 const createView = (content: string) => (props) => (
   <View><Text>{content}</Text></View>
 )
-
-const DatVeScreen = (props) => {
-  return (
-    <View>
-      <Button title='Play Keno' onPress={() => props.navigation.navigate('Play Keno')} />
-      <Button title='Play Power' onPress={() => props.navigation.navigate('Play Power')} />
-      <Button title='Play Mega' onPress={() => props.navigation.navigate('Play Mega')} />
-    </View>
-  )
-}
 
 const HomeTab = (props: any) => {
   const [canExit, setCanExit] = useState(false)
@@ -72,8 +64,8 @@ const HomeTab = (props: any) => {
           tabBarOptions={{
             activeTintColor: commonStyles.mainColor
           }}>
-        <Tab.Screen name='Dat Ve' component={DatVeScreen} options={{tabBarIcon: ({focused}) => (<Icon name='ticket' style={iconStyle(focused)} />)}}></Tab.Screen>
-        <Tab.Screen name='Truc tuyen' component={createView('Truc tuyen')} options={{tabBarIcon: ({focused}) => (<Ionicon name='md-microphone' style={iconStyle(focused)} />)}}></Tab.Screen>
+        <Tab.Screen name='Dat Ve' component={TicketBookingScreen} options={{tabBarIcon: ({focused}) => (<Icon name='ticket' style={iconStyle(focused)} />)}}></Tab.Screen>
+        <Tab.Screen name='Truc tuyen' component={LiveStreamScreen} options={{tabBarIcon: ({focused}) => (<Ionicon name='md-microphone' style={iconStyle(focused)} />)}}></Tab.Screen>
         <Tab.Screen name='Ket qua' component={createView('Ket qua')} options={{tabBarIcon: ({focused}) => (<MaterialIcon name='gesture-double-tap' style={iconStyle(focused)} />)}}></Tab.Screen>
       </Tab.Navigator>
     </MainScreen>

@@ -70,5 +70,7 @@ unsafe-getters-setters
 untyped-import
 untyped-type-import
 
+all=true
+
 [version]
 ^0.113.0
